@@ -4,11 +4,7 @@
         "details": [
             {
                 "appID": "86553ZC3T4.com.kwench.instapat",
-                "paths": [ "/myperks/rnr/feed/view*",
-                   "/myperks/myRewards/view*",
-                   "/myperks/myRewards/feed/view,
-                   "/*"
-                   ]
+                "paths": ["*"]
             }
         ]
     }
