@@ -7,7 +7,7 @@
                 "paths": [ "/myperks/rnr/feed/view*",
                    "/myperks/myRewards/view*",
                    "/myperks/myRewards/feed/view,
-                   "/#/details/*"
+                   "/*"
                    ]
             }
         ]
