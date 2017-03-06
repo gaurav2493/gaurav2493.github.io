@@ -1,12 +1,9 @@
 {
     "applinks": {
         "apps": [],
-        "details": [
-            {
-                "appID": "86553ZC3T4.com.kwench.instapat",
-                "paths": ["/#/test/*",
-               			  "/details/*"]
-            }
-        ]
+        "details": [{
+            "appID": "86553ZC3T4.com.kwench.ios.klib",
+            "paths": ["/klib/*" ]
+        }]
     }
 }
