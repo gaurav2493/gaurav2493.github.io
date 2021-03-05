@@ -1,79 +1,41 @@
-<HTML>
-<HEAD>
-<link rel="manifest" href="/manifest.json">
-</HEAD>
-
-<H1>hello world</h1>
-
-<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
-<!-- <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-messaging.js"></script> -->
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBS6tw_Kj6pg6rR9pCSF89rLJDovatKfWM",
-    messagingSenderId: "359846717506"
-  };
-  firebase.initializeApp(config);
-
-  const messaging = firebase.messaging();
-  messaging.requestPermission()
-.then(function() {
-  console.log('Notification permission granted.');
-  // TODO(developer): Retrieve an Instance ID token for use with FCM.
-  // ...
-})
-.catch(function(err) {
-  console.log('Unable to get permission to notify.', err);
-});
+<html>
+<textarea id="sql" class="sql">select ?, ?, ?;</textarea>
+<br/>
+<textarea id="params" class="params">25(Integer), hello world(String), 91b9cfd1-c309-4cad-84d5-d76c240012d9(String)</textarea>
+<button onclick="doIt()">parse</button>
+<p id="output"></p>
 
 
-messaging.getToken()
-  .then(function(currentToken) {
-    if (currentToken) {
-      sendTokenToServer(currentToken);
-      updateUIForPushEnabled(currentToken);
-    } else {
-      // Show permission request.
-      console.log('No Instance ID token available. Request permission to generate one.');
-      // Show permission UI.
-      updateUIForPushPermissionRequired();
-      setTokenSentToServer(false);
-    }
-  })
-  .catch(function(err) {
-    console.log('An error occurred while retrieving token. ', err);
-    console.log('Error retrieving Instance ID token. ', err);
-    setTokenSentToServer(false);
-  });
+<script type="text/javascript">
 
-
-// Callback fired if Instance ID token is updated.
-messaging.onTokenRefresh(function() {
-  messaging.getToken()
-  .then(function(refreshedToken) {
-    console.log('Token refreshed.');
-    // Indicate that the new Instance ID token has not yet been sent to the
-    // app server.
-    setTokenSentToServer(false);
-    // Send Instance ID token to app server.
-    sendTokenToServer(refreshedToken);
-    // ...
-  })
-  .catch(function(err) {
-    console.log('Unable to retrieve refreshed token ', err);
-    console.log('Unable to retrieve refreshed token ', err);
-  });
-});
-
-
-
-
-// Handle incoming messages. Called when:
-// - a message is received while the app has focus
-// - the user clicks on an app notification created by a sevice worker
-//   `messaging.setBackgroundMessageHandler` handler.
-messaging.onMessage(function(payload) {
-  console.log("Message received. ", payload);
-  // ...
-});
+  function doIt() {
+    const params = document.getElementById("params").value;
+    const paramsArr = params.split(',');
+    let currentSql = document.getElementById("sql").value;
+    paramsArr.forEach(param => {
+      const extracts = /^(.+)\((\w+)\)$/gm.exec(param);
+      let replaceString = extracts[1];
+    if (extracts[2].toLocaleLowerCase() !== 'integer') {
+        replaceString = `'${extracts[1]}'`;
+      }
+      currentSql = currentSql.replace('?', replaceString.trim());
+    });
+    document.getElementById("output").innerHTML = currentSql;
+  }
+	
 </script>
+
+<style>
+  .sql {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+  }
+
+  .params {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+</style>
+</html>
