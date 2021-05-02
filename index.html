@@ -14,10 +14,16 @@
     let currentSql = document.getElementById("sql").value;
     paramsArr.forEach(param => {
       const extracts = /^(.+)\((\w+)\)$/gm.exec(param);
-      let replaceString = extracts[1];
-    if (extracts[2].toLocaleLowerCase() !== 'integer') {
-        replaceString = `'${extracts[1]}'`;
+      let replaceString;
+      if (extracts && extracts.length) {
+        replaceString = extracts[1];
+        if (extracts[2].toLocaleLowerCase() !== 'integer') {
+          replaceString = `'${extracts[1]}'`;
+        }
+      } else {
+        replaceString = param;
       }
+      
       currentSql = currentSql.replace('?', replaceString.trim());
     });
     document.getElementById("output").innerHTML = currentSql;
