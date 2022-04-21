@@ -18,7 +18,7 @@
       if (extracts && extracts.length) {
         replaceString = extracts[1];
         if (extracts[2].toLocaleLowerCase() !== 'integer') {
-          replaceString = `'${extracts[1]}'`;
+          replaceString = `'${replaceString.trim()}'`;
         }
       } else {
         replaceString = param;
